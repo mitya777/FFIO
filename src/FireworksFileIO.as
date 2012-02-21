@@ -12,7 +12,7 @@ package{
 		private var sourceFile:String = "";
 		
 		public function FireworksFileIO(fileName:String = ""){
-				MMExecute('alert("FireworksFileIO init");');
+				MMExecute('alert("FireworksFileIO init!!");');
 			source = fileName;
 			var jsFileIO:String = (new FileIOJavascript() as ByteArray).toString();	//instantiate embedded Fireworks File IO Javascript Library code
 			MMExecute(jsFileIO);	//execute code to set up fireworks_file_io_library global variable to give access to file io methods
@@ -22,7 +22,7 @@ package{
 		//returns string containing contents of file, or emtpy string if can't read file.
 		public function readFile(fileName:String = ""):String{
 			(fileName === "")? fileName = source: fileName;
-			return MMExecute('fireworks_file_io_library.readFile("'+sourceFile+'")');
+			return MMExecute('fireworks_file_io_library.readFile("'+fileName+'")');
 		}
 		
 		public function get source():String{

@@ -6,7 +6,7 @@ package{
 	public class FireworksFileIO{
 		
 		//embed Fireworks File IO Javascript library
-		[Embed(source = "../../Specctr/commands/FireworksLib/FFIO.jsf", mimeType = "application/octet-stream")]
+		[Embed(source = "../javascript/FFIO.jsf", mimeType = "application/octet-stream")]
 		private var FileIOJavascript:Class;
 		
 		private var sourceFile:String = "";

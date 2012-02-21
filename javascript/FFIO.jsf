@@ -1,0 +1,60 @@
+//set up global Fireworks namespace SpecctrFile
+fireworks_file_io_library = (function(){
+	
+	var test = function(){alert("success... Fireworks File IO initialized");};
+
+	//writes to a file, if file exists, deletes it and starts a new one with the same name.
+	var overwriteFile = function(fileUrl, text){
+        if (Files.deleteFileIfExisting(fileUrl)){  
+			if (Files.createFile(fileUrl, ".txt", "TEXT")){
+                        return write(fileUrl, text);
+            }
+        }
+        
+		return false;
+	};
+	
+	//writes to the beginning of a file overwriting whatever is there, but keeping whatever it doesn't "reach". creates file if it doesn't exist. so 
+	var write = function(fileUrl, text){
+		var fileReference = Files.open(fileUrl, true);
+        if (fileReference){
+				fileReference.write(text);
+				fileReference.close();
+
+				return true;
+		}
+		return false;
+	};
+	
+	//will read the contents of a file and return them as a string
+	var readFile = function(fileUrl){
+		var fileReference = Files.open(fileUrl, "false");
+		var line = fileReference.readline();
+		var lines = "";
+		while(line !== null) {
+			lines += line + "\n";
+			line = fileReference.readline();	
+		}
+		lines = lines.substring(0, lines.length-1);		//remove last newline so that future writes append to current line
+		fileReference.close();
+		
+		return lines;
+	};
+	
+	//will append text to the end of file, if file doesn't exist it will create it. Optional param appendNewLine needs to be true if want to append with a new line.
+	var appendToFile = function(fileUrl, text, appendNewLine){
+		var newText;
+		appendNewLine = (typeof appendNewLine == "undefined")? false:appendNewLine;		//default is false, unless user inputs optional appendNewLine param
+		if (appendNewLine) newText = readFile(fileUrl) + "\n" + text;
+		else newText = readFile(fileUrl) + text;
+		overwriteFile(fileUrl, newText);
+	};
+	
+	return {
+		test: test,
+		write: write,
+		overwriteFile: overwriteFile,
+		readFile: readFile,
+		appendToFile: appendToFile
+	};
+}());

@@ -30,24 +30,29 @@ fireworks_file_io_library = (function(){
 	var readFile = function(fileUrl){
 		var fileReference = Files.open(fileUrl, "false");
 		var line = fileReference.readline();
+		alert("line: " + line);
 		var lines = "";
 		while(line !== null) {
 			lines += line + "\n";
-			line = fileReference.readline();	
+			line = fileReference.readline();
+			alert("line: " + line);			
 		}
 		lines = lines.substring(0, lines.length-1);		//remove last newline so that future writes append to current line
 		fileReference.close();
 		
+		alert("LINES: " + lines);
 		return lines;
 	};
 	
 	//will append text to the end of file, if file doesn't exist it will create it. Optional param appendNewLine needs to be true if want to append with a new line.
 	var appendToFile = function(fileUrl, text, appendNewLine){
+		alert("appendToFile: " + text);
 		var newText;
-		appendNewLine = (typeof appendNewLine == "undefined")? false:appendNewLine;		//default is false, unless user inputs optional appendNewLine param
+		appendNewLine = (typeof appendNewLine == "undefined")? false : appendNewLine;		//default is false, unless user inputs optional appendNewLine param
 		if (appendNewLine) newText = readFile(fileUrl) + "\n" + text;
 		else newText = readFile(fileUrl) + text;
-		overwriteFile(fileUrl, newText);
+		
+		return overwriteFile(fileUrl, newText);
 	};
 	
 	return {

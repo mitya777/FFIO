@@ -28,6 +28,7 @@ fireworks_file_io_library = (function(){
 	
 	//will read the contents of a file and return them as a string
 	var readFile = function(fileUrl){
+		alert("read file url: " + fileUrl);
 		var fileReference = Files.open(fileUrl, "false");
 		var line = fileReference.readline();
 		alert("line: " + line);

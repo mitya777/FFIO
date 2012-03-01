@@ -1,7 +1,6 @@
 package{
 	
 	import adobe.utils.MMExecute;
-	
 	import flash.utils.ByteArray;
 	
 	public class FireworksFileIO{
@@ -17,8 +16,8 @@ package{
 		private var sourceFile:String = "";
 		
 		public function FireworksFileIO(fileName:String = ""){
-				MMExecute('alert("FireworksFileIO init!!");');
 			source = fileName;
+			MMExecute('alert("FireworksFileIO init: " + "'+source+'");');
 			var jsFileIO:String = (new FileIOJavascript() as ByteArray).toString();	//instantiate embedded Fireworks File IO Javascript Library code
 			MMExecute(jsFileIO);	//execute code to set up fireworks_file_io_library global variable to give access to file io methods
 			MMExecute('fireworks_file_io_library.test();');		//test access to library, this will print to john dunning's console	
@@ -39,12 +38,20 @@ package{
 			return false;
 		}
 		
+		public function overwriteFile( text:String, fileName:String = ""):Boolean{
+			text = encodeURIComponent(text);
+			(fileName === "")? fileName = source: fileName;		//if no parameter use sourceFile, otherwise read from the passed value
+			var success:String = MMExecute('fireworks_file_io_library.overwriteFile("'+fileName+'", unescape("'+text+'"));');	
+			if (success === "true") return true;
+			return false;
+		}
+		
 		public function get source():String{
 			return sourceFile;
 		}
 		
 		public function set source(fileName:String):void{
-			sourceFile = fileName;
+			sourceFile = decodeURIComponent(fileName).replace("|",":");		//sometimes Windows URLs are returned as "file:///C|/"... as opposed to "file:///C:/"
 		}
 		
 	}

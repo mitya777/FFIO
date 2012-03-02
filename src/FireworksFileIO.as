@@ -2,6 +2,7 @@ package{
 	
 	import adobe.utils.MMExecute;
 	import flash.utils.ByteArray;
+	import FireworksLog;
 	
 	public class FireworksFileIO{
 		/*Because a string parameter, such as text to be written, is being passed to these methods which then insert the string into another string as parameters for MMExecute there is a nesting of strings.
@@ -16,11 +17,13 @@ package{
 		private var sourceFile:String = "";
 		
 		public function FireworksFileIO(fileName:String = ""){
+			var fw:FireworksLog = new FireworksLog("console.log");
+			
 			source = fileName;
-			MMExecute('alert("FireworksFileIO init: " + "'+source+'");');
+			fw.log("FireworksFileIO init: ", source);
 			var jsFileIO:String = (new FileIOJavascript() as ByteArray).toString();	//instantiate embedded Fireworks File IO Javascript Library code
 			MMExecute(jsFileIO);	//execute code to set up fireworks_file_io_library global variable to give access to file io methods
-			MMExecute('fireworks_file_io_library.test();');		//test access to library, this will print to john dunning's console	
+			//MMExecute('fireworks_file_io_library.test();');		//test access to library, this will print to john dunning's console	
 		}
 		
 		//returns string containing contents of file, or emtpy string if can't read file.
@@ -32,7 +35,6 @@ package{
 		public function appendToFile( text:String, fileName:String = ""):Boolean{	//the params are reversed when compared to the js function so that we can make fileName optional
 			text = encodeURIComponent(text);
 			(fileName === "")? fileName = source: fileName;		//if no parameter use sourceFile, otherwise read from the passed value
-				MMExecute('alert("aTF text: '+text+'");');
 			var success:String = MMExecute('fireworks_file_io_library.appendToFile("'+fileName+'", unescape("'+text+'"));');	
 			if (success === "true") return true;
 			return false;
@@ -43,6 +45,12 @@ package{
 			(fileName === "")? fileName = source: fileName;		//if no parameter use sourceFile, otherwise read from the passed value
 			var success:String = MMExecute('fireworks_file_io_library.overwriteFile("'+fileName+'", unescape("'+text+'"));');	
 			if (success === "true") return true;
+			return false;
+		}
+		
+		public static function exists( fileUrl:String):Boolean{
+			var success:String = MMExecute('Files.exists("'+fileUrl+'");');
+			if(success === "true") return true;
 			return false;
 		}
 		

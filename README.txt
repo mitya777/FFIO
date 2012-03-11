@@ -1,14 +1,14 @@
 FFIO - Fireworks File IO
 
-This library is intended to make developing custom panels for Adobe Fireworks a little bit easier. It provides a library of actionscript functions to do file io from the Fireworks custom panels you develop.
-
+This library is intended to make developing custom panels for Adobe Fireworks a little bit easier. 
+It provides a library of actionscript functions to do file io from the Fireworks custom panels you develop.
 This is a library of actionscript file-io functions which wrap javascript file-io functions capable of executing inside the Fireworks javascript environment.
 
 
 Get Started
 
-Reference the FireworksFileIO.swc in the bin folder from your Flash Builder project.
-Instantiate the FireworksFileIO project like so:
+Reference the FireworksFileIO.swc contained in the bin folder from your Flash Builder project.
+Instantiate the FireworksFileIO object like so:
 
 	var fileIO = new FireworksFileIO();
 	fileIO.appendToFile("some text to write", "file:///some/file.txt");
@@ -21,6 +21,7 @@ Or, if you know you will be working with a single file, you could do:
 The rest of the API is below:
 
 	public function FireworksFileIO(fileName:String = "")	//constructor
+	
 		
 	public function readFile(fileName:String = ""):String
 		
@@ -55,7 +56,16 @@ the string being passed to MMExecute is javascript.
 This nested string situation is a little bit nightmarish, especially when you have to start dealing with multiple variables, and newlines, which have to be encoded and escaped on their journey through this string maze.
 This library takes care of all that for you and lets you just pass the strings you want written, and the files you want read, to the appropriate actionscirpt read/write methods.
 
+The Set Up
+
+The FireworksFileIO class embeds FFIO.jsf. When it is instantiated it executes this javascript loading a "fireworks_file_io_library" global variable into the Fireworks javascript environment.
+From that point on, that global variable exposes functions which can be called by the actionscript IO functions of the FireworksFileIO object.
+
+Miscellaneous
+
+The lib folder contains the FWLog.swc which FireworksFileIO uses for logging. If you wish to change and recompile FireworksFileIO, you may need to re-reference this swc from your Flash Builder project.
 
 
-		
+
+Released under the BSD License.		
 

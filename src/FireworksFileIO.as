@@ -1,7 +1,9 @@
 package{
 	
 	import adobe.utils.MMExecute;
+	
 	import flash.utils.ByteArray;
+	
 	import FireworksLog;
 	
 	public class FireworksFileIO{

@@ -19,10 +19,10 @@ package{
 		private var sourceFile:String = "";
 		
 		public function FireworksFileIO(fileName:String = ""){
-			var fw:FireworksLog = new FireworksLog("console.log");
+			var fw:FireworksLog = new FireworksLog("production");
 			
 			source = fileName;
-			fw.log("FireworksFileIO init: ", source);
+			//fw.log("FireworksFileIO init: ", source);
 			var jsFileIO:String = (new FileIOJavascript() as ByteArray).toString();	//instantiate embedded Fireworks File IO Javascript Library code
 			MMExecute(jsFileIO);	//execute code to set up fireworks_file_io_library global variable to give access to file io methods
 			//MMExecute('fireworks_file_io_library.test();');		//test access to library, this will print to john dunning's console	

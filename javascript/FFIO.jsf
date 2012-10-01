@@ -7,7 +7,7 @@ fireworks_file_io_library = (function(){
 	var overwriteFile = function(fileUrl, text){
         if (Files.deleteFileIfExisting(fileUrl)){  
 			if (Files.createFile(fileUrl, ".txt", "TEXT")){
-                        return write(fileUrl, text);
+                return write(fileUrl, text);
             }
         }
         
@@ -18,7 +18,7 @@ fireworks_file_io_library = (function(){
 	var write = function(fileUrl, text){
 		var fileReference = Files.open(fileUrl, true);
         if (fileReference){
-				fileReference.write(text);
+				fileReference.write(unescape(text));
 				fileReference.close();
 
 				return true;
@@ -34,7 +34,7 @@ fireworks_file_io_library = (function(){
 			//alert("line: " + line);
 		var lines = "";
 		while(line !== null) {
-			lines += line + "\n";
+			lines += unescape(line + "\n");
 			line = fileReference.readline();
 				//alert("line: " + line);			
 		}
